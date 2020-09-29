@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import data from '@/assets/data.json'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     currentProduct: {},
-    productsCollection: []
+    productsCollection: data
   },
   getters: {  
     currentProduct: state => state.currentProduct,

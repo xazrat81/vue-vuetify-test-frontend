@@ -41,11 +41,10 @@
 </template>
 
 <script>
-import data from '@/assets/data.json'
 import { mdiPlus } from '@mdi/js'
 import CreateOrEditProduct from '@/components/CreateOrEditProduct.vue'
 import ProductsTableRow from '@/components/ProductsTableRow.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
 
@@ -81,17 +80,12 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setProductsCollection']),
     openEditProductDialog() {
       this.editProductDialog = true
     },
     closeEditProductDialog() {
       this.editProductDialog = false
     }
-  },
-
-  mounted() {
-    this.setProductsCollection(data)
   }
 }
 </script>

@@ -34,26 +34,62 @@
           </template>
         </v-simple-table>
         <div class="mt-10">
-          <v-btn color="primary" class="mr-2">Изменить</v-btn>
-          <v-btn color="error">Удалить</v-btn>
+          <v-btn 
+            color="primary" 
+            class="mr-2" 
+            @click="openEditProductDialog"
+          >Изменить</v-btn>
+          <v-btn 
+            color="error" 
+            @click="deleteProduct"
+          >Удалить</v-btn>
         </div>
+        <v-dialog max-width="1000px" v-model="editDialog">
+          <create-or-edit-product
+            :product="currentProduct"
+            action="edit"
+            @onDialogClose="closeEditProductDialog"
+          ></create-or-edit-product>
+        </v-dialog>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import CreateOrEditProduct from '@/components/CreateOrEditProduct.vue'
 
 export default {
+
+  components: {
+    CreateOrEditProduct
+  },
+
+  data: () => ({
+    editDialog: false
+  }),
 
   computed: {
     ...mapGetters(['currentProduct'])
   },
 
-  mounted() {
-    console.log(this.currentProduct)
-  }
+  methods: {
+    ...mapMutations(['deleteProductFromCollection']),
+
+    openEditProductDialog() {
+      this.editDialog = true
+    },
+
+    closeEditProductDialog() {
+      this.editDialog = false
+    },
+
+    deleteProduct() {
+      this.deleteProductFromCollection(this.currentProduct.artnumber)
+      this.$router.push({name: 'Goods'})
+    }
+  },
 
 }
 </script>
