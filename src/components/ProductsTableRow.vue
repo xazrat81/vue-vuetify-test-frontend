@@ -98,10 +98,6 @@ export default {
     closeEditProductDialog() {
       this.editProductDialog = false
     },
-    saveEditedProduct(product) {
-      this.closeEditProductDialog()
-      this.$emit('onProductEdit', product)
-    },
     deleteProduct() {
       if(confirm('Вы уверены, что хотите удалить данный товар?')) {
         this.deleteProductFromCollection(this.product.artnumber)

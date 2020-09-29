@@ -100,7 +100,7 @@ export default {
       required: [value => !!value || 'Обязательное поле'],
       artnumber: [
         value => !!value || 'Обязательное поле', 
-        value => this.product.artnumber === value && 'Артикул должен быть уникальным'
+        // value => this.product.artnumber === value && 'Артикул должен быть уникальным'
       ]
     }
 
@@ -115,9 +115,11 @@ export default {
       switch(this.action) {
         case 'edit':
           this.saveEditedProduct(this.product)
+          this.closeEditDialog()
           break
         case 'create':
           this.saveCreatedProduct(this.product)
+          this.closeEditDialog()
           break
       }
     }
