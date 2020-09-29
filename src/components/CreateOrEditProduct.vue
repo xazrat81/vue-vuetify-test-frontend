@@ -11,42 +11,49 @@
             <v-text-field
               label="Артикул"
               v-model="product.artnumber"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field
               label="Название"
               v-model="product.name"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field
               label="Бренд"
               v-model="product.brand"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field
               label="Масса"
               v-model="product.weight"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field
               label="Количество"
               v-model="product.quantity"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field
               label="Стоимость"
               v-model="product.price"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field
               label="Сток"
               v-model="product.stock"
+              :rules="rules.required"
             ></v-text-field>
           </v-col>
           <v-col cols="12">
@@ -83,14 +90,44 @@ export default {
     action: {
       type: String,
       required: true
-    }
+    },
   },
 
-  // data: () => ({
+  data: () => ({
+    
+    rules: {
+      required: [value => !!value || 'Обязательное поле', ]
+      // artnumber: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ],
+      // name: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ],
+      // brand: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ],
+      // weight: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ],
+      // quantity: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ],
+      // price: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ],
+      // stock: [
+      //   value => !!value || 'Обязательное поле', 
+      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
+      // ]
+    }
 
-  //   product: 
-
-  // }),
+  }),
 
   methods: {
     closeEditDialog() {

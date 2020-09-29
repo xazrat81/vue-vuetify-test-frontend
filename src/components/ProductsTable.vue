@@ -2,17 +2,24 @@
   <v-data-table
     :items="productCollection"
     :headers="goodsTableHeaders"
+    :search="productsCollectionSearch"
     class="elevation-1"
   >
     <template v-slot:top>
       <v-toolbar flat>
         <v-btn
           color="success"
+          class="mr-10"
           @click="openEditProductDialog"
         >
           <v-icon left>{{ svgIcons.mdiPlus }}</v-icon>
           Создать новый товар
         </v-btn>
+        <v-text-field
+          v-model="productsCollectionSearch"
+          label="Поиск по товарам"
+          hide-details
+        ></v-text-field>
         <v-dialog v-model="editProductDialog">
 
           <create-or-edit-product
@@ -28,6 +35,7 @@
     <template v-slot:item="{item}">
       <products-table-row
         :product="item"
+        :productsCollectionSearch="productsCollectionSearch"
         @onProductEdit="saveEditedProduct"
       ></products-table-row>
     </template>
@@ -50,14 +58,14 @@ export default {
   data: () => ({
     
     goodsTableHeaders: [
-      { value: 'artnumber', text: 'Артикул' },
+      { value: 'artnumber', text: 'Артикул', filterable: false },
       { value: 'name', text: 'Название' },
-      { value: 'brand', text: 'Бренд' },
-      { value: 'weight', text: 'Масса' },
-      { value: 'quantity', text: 'Количество' },
-      { value: 'price', text: 'Стоимость' },
-      { value: 'stock', text: 'Cток' },
-      { value: 'actions', text: 'Действия' },
+      { value: 'brand', text: 'Бренд', filterable: false },
+      { value: 'weight', text: 'Масса', filterable: false },
+      { value: 'quantity', text: 'Количество', filterable: false },
+      { value: 'price', text: 'Стоимость', filterable: false },
+      { value: 'stock', text: 'Cток', filterable: false },
+      { value: 'actions', text: 'Действия', filterable: false },
     ],
     
     productCollection: data,
@@ -67,6 +75,7 @@ export default {
     },
 
     editProductDialog: false,
+    productsCollectionSearch: ''
 
   }),
 

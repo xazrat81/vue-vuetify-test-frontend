@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>{{ product.artnumber }}</td>
-    <td>{{ product.name }}</td>
+    <td v-html="name">{{ product.name }}</td>
     <td>{{ product.brand }}</td>
     <td>{{ weight }}</td>
     <td>{{ quantity }}</td>
@@ -43,6 +43,9 @@ export default {
   props: {
     product: {
       type: Object
+    },
+    productsCollectionSearch: {
+      type: String
     }
   },
 
@@ -54,6 +57,12 @@ export default {
   }),
 
   computed: {
+    name() {
+      const reg = new RegExp(`${this.productsCollectionSearch}`, 'i')
+      if(this.productsCollectionSearch.length) {
+        return this.product.name.replace(reg, `<span class="red--text">${this.product.name.match(reg)}</span>`)
+      } else return this.product.name
+    },
     weight() {
       return stringToNumRuLocale(this.product.weight)
     },
