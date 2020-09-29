@@ -1,7 +1,7 @@
 <template>
   <v-data-table
-    :items="productCollection"
-    :headers="goodsTableHeaders"
+    :items="productsCollection"
+    :headers="productsTableHeaders"
     :search="productsCollectionSearch"
     class="elevation-1"
   >
@@ -20,12 +20,11 @@
           label="Поиск по товарам"
           hide-details
         ></v-text-field>
-        <v-dialog v-model="editProductDialog">
+        <v-dialog max-width="1000px" v-model="editProductDialog">
 
           <create-or-edit-product
             action="create"
             @onDialogClose="closeEditProductDialog"
-            @onProductCreate="saveCreatedProduct"
           ></create-or-edit-product>
           
         </v-dialog>
@@ -36,7 +35,6 @@
       <products-table-row
         :product="item"
         :productsCollectionSearch="productsCollectionSearch"
-        @onProductEdit="saveEditedProduct"
       ></products-table-row>
     </template>
   </v-data-table>
@@ -47,6 +45,7 @@ import data from '@/assets/data.json'
 import { mdiPlus } from '@mdi/js'
 import CreateOrEditProduct from '@/components/CreateOrEditProduct.vue'
 import ProductsTableRow from '@/components/ProductsTableRow.vue'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
 
@@ -57,7 +56,7 @@ export default {
 
   data: () => ({
     
-    goodsTableHeaders: [
+    productsTableHeaders: [
       { value: 'artnumber', text: 'Артикул', filterable: false },
       { value: 'name', text: 'Название' },
       { value: 'brand', text: 'Бренд', filterable: false },
@@ -67,8 +66,6 @@ export default {
       { value: 'stock', text: 'Cток', filterable: false },
       { value: 'actions', text: 'Действия', filterable: false },
     ],
-    
-    productCollection: data,
 
     svgIcons: {
       mdiPlus
@@ -79,23 +76,22 @@ export default {
 
   }),
 
+  computed: {
+    ...mapGetters(['productsCollection'])
+  },
+
   methods: {
+    ...mapMutations(['setProductsCollection']),
     openEditProductDialog() {
       this.editProductDialog = true
     },
     closeEditProductDialog() {
       this.editProductDialog = false
-    },
-    saveEditedProduct(product) {
-      const match = this.productCollection.indexOf(element => element.artnumber === product.artnumber)
-      if(match !== -1) {
-        this.productCollection.splice(match, 1, Object.assign({}, product))
-      }
-    },
-    saveCreatedProduct(product) {
-      this.productCollection.push(product)
-      this.closeEditProductDialog()
     }
+  },
+
+  mounted() {
+    this.setProductsCollection(data)
   }
 }
 </script>

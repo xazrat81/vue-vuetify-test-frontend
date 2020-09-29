@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="700px">
+  <v-card>
     <v-card-title>
       Создание нового товара
     </v-card-title>
@@ -11,7 +11,7 @@
             <v-text-field
               label="Артикул"
               v-model="product.artnumber"
-              :rules="rules.required"
+              :rules="rules.artnumber"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 
 export default {
 
@@ -96,50 +97,27 @@ export default {
   data: () => ({
     
     rules: {
-      required: [value => !!value || 'Обязательное поле', ]
-      // artnumber: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ],
-      // name: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ],
-      // brand: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ],
-      // weight: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ],
-      // quantity: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ],
-      // price: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ],
-      // stock: [
-      //   value => !!value || 'Обязательное поле', 
-      //   // value => !this.product.artnumber === value || 'Артикул должен быть уникальным'
-      // ]
+      required: [value => !!value || 'Обязательное поле'],
+      artnumber: [
+        value => !!value || 'Обязательное поле', 
+        value => this.product.artnumber === value && 'Артикул должен быть уникальным'
+      ]
     }
 
   }),
 
   methods: {
+    ...mapMutations(['saveEditedProduct', 'saveCreatedProduct']),
     closeEditDialog() {
       this.$emit('onDialogClose')
     },
     saveProduct() {
       switch(this.action) {
         case 'edit':
-          this.$emit('onProductEdit', this.product)
+          this.saveEditedProduct(this.product)
           break
         case 'create':
-          this.$emit('onProductCreate', this.product)
+          this.saveCreatedProduct(this.product)
           break
       }
     }

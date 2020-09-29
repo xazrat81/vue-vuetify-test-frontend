@@ -15,14 +15,27 @@
       >
         <v-icon>{{ svgIcons.mdiPencil }}</v-icon>
       </v-btn>
+      <v-btn 
+        text 
+        color="grey"
+        @click="deleteProduct"
+      >
+        <v-icon>{{ svgIcons.mdiDelete }}</v-icon>
+      </v-btn>
+      <v-btn 
+        text 
+        color="grey"
+        @click="showProductDetails"
+      >
+        <v-icon>{{ svgIcons.mdiArrowRight }}</v-icon>
+      </v-btn>
     </td>
 
-    <v-dialog v-model="editProductDialog">
+    <v-dialog max-width="1000px" v-model="editProductDialog">
       <create-or-edit-product
         :product="product"
         action="edit"
         @onDialogClose="closeEditProductDialog"
-        @onProductEdit="saveEditedProduct"
       ></create-or-edit-product>
     </v-dialog>
 
@@ -31,8 +44,9 @@
 
 <script>
 import CreateOrEditProduct from '@/components/CreateOrEditProduct.vue'
-import { mdiPencil } from '@mdi/js'
+import { mdiPencil, mdiDelete, mdiArrowRight } from '@mdi/js'
 import { stringToNumRuLocale } from '@/utils/locale'
+import { mapMutations } from 'vuex'
 
 export default {
 
@@ -52,7 +66,9 @@ export default {
   data: () => ({
     editProductDialog: false,
     svgIcons: {
-      mdiPencil
+      mdiPencil,
+      mdiDelete,
+      mdiArrowRight
     }
   }),
 
@@ -75,6 +91,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setCurrentProduct', 'deleteProductFromCollection']),
     openEditProductDialog() {
       this.editProductDialog = true
     },
@@ -84,6 +101,15 @@ export default {
     saveEditedProduct(product) {
       this.closeEditProductDialog()
       this.$emit('onProductEdit', product)
+    },
+    deleteProduct() {
+      if(confirm('Вы уверены, что хотите удалить данный товар?')) {
+        this.deleteProductFromCollection(this.product.artnumber)
+      }
+    },
+    showProductDetails() {
+      this.setCurrentProduct(this.product)
+      this.$router.push({ name: 'SingleProduct' , params: { artnumber: this.product.artnumber } })
     }
   }
 

@@ -7,8 +7,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Goods',
     component: GoodsPage
+  },
+  {
+    path: '/goods/:artnumber',
+    name: 'SingleProduct',
+    component: () => import('@/views/SingleProductPage.vue')
   }
 ]
 
