@@ -126,13 +126,14 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['saveEditedProduct', 'saveCreatedProduct']),
+    ...mapMutations(['saveEditedProduct', 'saveCreatedProduct', 'setCurrentProduct']),
     closeEditDialog() {
       this.$emit('onDialogClose')
     },
     saveProduct() {
       switch(this.action) {
         case 'edit':
+          this.setCurrentProduct(this.productModel)
           this.saveEditedProduct(this.productModel)
           this.closeEditDialog()
           break

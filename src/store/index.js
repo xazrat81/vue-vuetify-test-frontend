@@ -25,6 +25,7 @@ export default new Vuex.Store({
       state.productsCollection.forEach((element, i) => {
         if(element.artnumber === payload.artnumber)
         index = i
+        return
       })
       if(index !== -1) {
         state.productsCollection.splice(index, 1, Object.assign({}, payload))
