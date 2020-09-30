@@ -24,6 +24,7 @@
 
           <create-or-edit-product
             action="create"
+            :isOpened="editProductDialog"
             @onDialogClose="closeEditProductDialog"
           ></create-or-edit-product>
           

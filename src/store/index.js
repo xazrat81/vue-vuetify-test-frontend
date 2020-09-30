@@ -21,9 +21,13 @@ export default new Vuex.Store({
       state.productsCollection = payload
     },
     saveEditedProduct(state, payload) {
-      const match = state.productsCollection.indexOf(element => element.artnumber === payload.artnumber)
-      if(match !== -1) {
-        state.productsCollection.splice(match, 1, Object.assign({}, payload))
+      let index = -1
+      state.productsCollection.forEach((element, i) => {
+        if(element.artnumber === payload.artnumber)
+        index = i
+      })
+      if(index !== -1) {
+        state.productsCollection.splice(index, 1, Object.assign({}, payload))
       }
     },
     saveCreatedProduct(state, payload) {

@@ -35,6 +35,7 @@
       <create-or-edit-product
         :product="product"
         action="edit"
+        :isOpened="editProductDialog"
         @onDialogClose="closeEditProductDialog"
       ></create-or-edit-product>
     </v-dialog>

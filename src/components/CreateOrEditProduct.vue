@@ -11,49 +11,50 @@
             <v-col cols="6">
               <v-text-field
                 label="Артикул"
-                v-model="product.artnumber"
+                v-model="productModel.artnumber"
                 :rules="rules.required"
+                :disabled="action === 'edit'"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 label="Название"
-                v-model="product.name"
+                v-model="productModel.name"
                 :rules="rules.required"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 label="Бренд"
-                v-model="product.brand"
+                v-model="productModel.brand"
                 :rules="rules.required"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 label="Масса"
-                v-model="product.weight"
+                v-model="productModel.weight"
                 :rules="rules.required"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 label="Количество"
-                v-model="product.quantity"
+                v-model="productModel.quantity"
                 :rules="rules.required"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 label="Стоимость"
-                v-model="product.price"
+                v-model="productModel.price"
                 :rules="rules.required"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field
                 label="Сток"
-                v-model="product.stock"
+                v-model="productModel.stock"
                 :rules="rules.required"
               ></v-text-field>
             </v-col>
@@ -102,15 +103,27 @@ export default {
       type: String,
       required: true
     },
+    isOpened: {
+      type: Boolean,
+      required: true
+    }
   },
 
   data: () => ({
+
+    productModel: {},
     
     rules: {
       required: [value => !!value || 'Обязательное поле']
     }
 
   }),
+
+  watch: {
+    isOpened: function() {
+      if(this.isOpened) this.productModel = Object.assign({}, this.product)
+    }
+  },
 
   methods: {
     ...mapMutations(['saveEditedProduct', 'saveCreatedProduct']),
@@ -120,15 +133,19 @@ export default {
     saveProduct() {
       switch(this.action) {
         case 'edit':
-          this.saveEditedProduct(this.product)
+          this.saveEditedProduct(this.productModel)
           this.closeEditDialog()
           break
         case 'create':
-          this.saveCreatedProduct(this.product)
+          this.saveCreatedProduct(this.productModel)
           this.closeEditDialog()
           break
       }
     }
+  },
+
+  mounted() {
+    if(this.isOpened) this.productModel = Object.assign({}, this.product)
   }
 
 }
